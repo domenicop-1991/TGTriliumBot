@@ -9,7 +9,7 @@ This project implements a Telegram bot that allows interaction with [Trilium Not
 - **Interactive Management**: Uses inline buttons for a better user experience.
 
 ## Requirements
-- **Python**: 3.11 (the only one i tested but still definitely not the 3.13 that have wheel issue)
+- **Python**: 3.11 (the only one i tested with success and definitely not the 3.13 that have wheel issue)
 - The following Python libraries (installable via `pip install -r requirements.txt` in the venv):
   - `python-telegram-bot`
   - `python-dotenv`
@@ -20,7 +20,7 @@ This project implements a Telegram bot that allows interaction with [Trilium Not
 ## Setting up your Telegram bot:
 
 1. **Download the bot script**:
-   -Download tgtriliumbot.py file and place it in a folder of your choice on your PC
+- Download tgtriliumbot.py file and place it in a folder of your choice on your PC
 
 2. **In the same folder create a `.env` file with this voices**:
    ```dotenv
