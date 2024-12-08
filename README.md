@@ -1,4 +1,3 @@
-```markdown
 # TgTriliumBot
 
 ## Description
