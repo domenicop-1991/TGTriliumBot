@@ -56,7 +56,7 @@ python tgtriliumbot.py
 - `start()`: Shows the main buttons to the user.
 - `button_handler()`: Handles interactions with inline buttons.
 - `text_handler()`: Collects text for note creation.
-- `document_handler()` and `photo_handler()`: Handle file and image uploads.
+- `document_handler()`: Handle file and uncompressed image uploads.
 
 ## Future update
 1. Photos will be handled by easly sending the compressed photo from telegram and not only as an uncompressed file.
