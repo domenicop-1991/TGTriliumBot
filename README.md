@@ -27,7 +27,6 @@ This project implements a Telegram bot that allows interaction with [Trilium Not
    TELEGRAM_BOT_TOKEN=your_telegram_bot_token
    TRILIUM_ETAPI_TOKEN=your_trilium_token
    TRILIUM_API_URL=your_trilium_api_url
-   noteId="your_parent_note_ID_for_file_attachment"
    ```
 URL must be include the port of your trilium server (8080 or something else)
 
