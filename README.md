@@ -50,6 +50,7 @@ python tgtriliumbot.py
 2. Use the interactive buttons to:
    - **Create Note**: Enter title and content to create a new note.
    - **Create Attachment**: Provide a file upload an attachment to the "FromTelegram" note in Trilium, if the note not exist it will create for you.
+3. - you find the notes inside the ‘FromTelegram’ note, while for attachments the situation is a little different, you have to enter the note, go to the top right, click on the 3 dots and then go to ‘Note attachments’, **the contents here remain for 30 days if you do not convert them into notes**, so when you can reorder notes and attachments by inserting them where you need them, do not leave them there
 
 ## Code Structure
 - `start()`: Shows the main buttons to the user.
