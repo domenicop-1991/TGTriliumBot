@@ -113,41 +113,31 @@ async def document_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     file_content = await file.download_as_bytearray()
     file_name = document.file_name
 
-    # Determina il MIME type del file utilizzando mimetypes
-    mime_type, _ = mimetypes.guess_type(file_name)
-    if not mime_type:
-        mime_type = document.mime_type or 'application/octet-stream'
-
-    # Imposta il 'type' in base al MIME type
-    if mime_type.startswith('image/'):
-        note_type = 'image'
-    elif mime_type.startswith('text/'):
-        note_type = 'code'
-    else:
-        note_type = 'file'
-
-    # Codifica il contenuto del file in base64
-    encoded_content = base64.b64encode(file_content).decode('utf-8')
-
     try:
         # Cerca la nota "FromTelegram"
         results = trilium_client.search_note(search="FromTelegram")
         if results['results']:
             parent_id = results['results'][0]['noteId']
 
-            # Crea l'allegato come una nuova nota con il tipo corretto
-            attachment = trilium_client.create_note(
+            # Crea una nota vuota con il titolo fornito
+            nota = trilium_client.create_note(
                 parentNoteId=parent_id,
                 title=titolo,
-                type=note_type,
-                mime=mime_type,
-                content=encoded_content
+                type='text',  # Tipo di nota vuota
+                content=""  # Contenuto vuoto
             )
-            attachment_id = attachment['note']['noteId']
+            nota_id = nota['note']['noteId']
+
+            # Aggiungi l'allegato alla nota creata
+            trilium_client.update_note_content(
+                noteId=nota_id,
+                content=file_content,
+                mime=document.mime_type or 'application/octet-stream'
+            )
 
             await context.bot.send_message(
                 chat_id=chat_id,
-                text=f"Allegato caricato con successo!\nID Allegato: {attachment_id}\nLo trovi nella nota 'FromTelegram'."
+                text=f"Allegato caricato con successo!\nID Allegato: {nota_id}\nLo trovi nella nota 'FromTelegram'."
             )
         else:
             await context.bot.send_message(chat_id=chat_id, text="La nota 'FromTelegram' non è stata trovata.")
@@ -159,6 +149,7 @@ async def document_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         del user_data[chat_id]
 
 
+# Funzione per gestire le foto inviate dall'utente
 async def photo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Gestisce le foto inviate dall'utente."""
     chat_id = update.effective_chat.id
@@ -174,12 +165,7 @@ async def photo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     photo = photos[-1]
     file = await context.bot.get_file(photo.file_id)
     file_content = await file.download_as_bytearray()
-    file_name = f"{titolo}.jpg"  # Puoi utilizzare un'estensione appropriata
     mime_type = 'image/jpeg'
-    note_type = 'image'
-
-    # Codifica il contenuto del file in base64
-    encoded_content = base64.b64encode(file_content).decode('utf-8')
 
     try:
         # Cerca la nota "FromTelegram"
@@ -187,19 +173,25 @@ async def photo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if results['results']:
             parent_id = results['results'][0]['noteId']
 
-            # Crea l'allegato come una nuova nota con il tipo corretto
-            attachment = trilium_client.create_note(
+            # Crea una nota vuota con il titolo fornito
+            nota = trilium_client.create_note(
                 parentNoteId=parent_id,
                 title=titolo,
-                type=note_type,
-                mime=mime_type,
-                content=encoded_content
+                type='text',  # Tipo di nota vuota
+                content=""  # Contenuto vuoto
             )
-            attachment_id = attachment['note']['noteId']
+            nota_id = nota['note']['noteId']
+
+            # Aggiungi l'allegato alla nota creata
+            trilium_client.update_note_content(
+                noteId=nota_id,
+                content=file_content,
+                mime=mime_type
+            )
 
             await context.bot.send_message(
                 chat_id=chat_id,
-                text=f"Immagine caricata con successo!\nID Allegato: {attachment_id}\nLo trovi nella nota 'FromTelegram'."
+                text=f"Immagine caricata con successo!\nID Allegato: {nota_id}\nLo trovi nella nota 'FromTelegram'."
             )
         else:
             await context.bot.send_message(chat_id=chat_id, text="La nota 'FromTelegram' non è stata trovata.")
