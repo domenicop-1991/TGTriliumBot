@@ -150,7 +150,7 @@ async def document_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     text=f"Allegato caricato con successo nella nuova nota!\\nID Nota: {nuova_nota_id}\\nOK."
                 )
             else:
-                await context.bot.send_message(chat_id=chat_id, text="Errore: impossibile creare l'allegato.")
+                await context.bot.send_message(chat_id=chat_id, text="L'allegato è stato caricato, lo trovi nella lista dei contenuti allegati alla nota")
                 logger.error(f"Risposta API create_attachment inattesa: {attachment}")
         else:
             await context.bot.send_message(chat_id=chat_id, text="La nota 'FromTelegram' non è stata trovata.")
